@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -8,6 +9,8 @@ import java.util.Scanner;
 public class Singleton {
     private Singleton() {
     }
+
+    Scanner sc = new Scanner(System.in);
 
     /**
      * Numero de intentos maximo
@@ -43,15 +46,14 @@ public class Singleton {
     private int fallos;
 
     /**
-     *
      * @param numeroAleatorio : Numero aleatorio
      * @param numeroPropuesto : Numero introducido por el usuario
-     * @param nMax : Numero maximo de intentos
-     * @param puntuacion : Adivinaciones correctas
-     * @param alias : Nombre del usuario
-     * @param rondasPartida : Numero de rondas por partida
-     * @param rondaActual : Ronda actual en la partida
-     * @param fallos : Numero de fallos
+     * @param nMax            : Numero maximo de intentos
+     * @param puntuacion      : Adivinaciones correctas
+     * @param alias           : Nombre del usuario
+     * @param rondasPartida   : Numero de rondas por partida
+     * @param rondaActual     : Ronda actual en la partida
+     * @param fallos          : Numero de fallos
      */
     public Singleton(int numeroAleatorio, int numeroPropuesto, int nMax, int puntuacion, String alias, int rondasPartida, int rondaActual, int fallos) {
         this.numeroAleatorio = numeroAleatorio;
@@ -66,6 +68,7 @@ public class Singleton {
 
     /**
      * Getter
+     *
      * @return numeroAleatorio
      */
     public int getNumeroAleatorio() {
@@ -74,6 +77,7 @@ public class Singleton {
 
     /**
      * Setter
+     *
      * @param numeroAleatorio
      */
     public void setNumeroAleatorio(int numeroAleatorio) {
@@ -82,6 +86,7 @@ public class Singleton {
 
     /**
      * Getter
+     *
      * @return numeroPropuesto
      */
     public int getNumeroPropuesto() {
@@ -90,6 +95,7 @@ public class Singleton {
 
     /**
      * Setter
+     *
      * @param numeroPropuesto
      */
     public void setNumeroPropuesto(int numeroPropuesto) {
@@ -98,6 +104,7 @@ public class Singleton {
 
     /**
      * Getter
+     *
      * @return nMax
      */
     public int getIntentosMax() {
@@ -106,6 +113,7 @@ public class Singleton {
 
     /**
      * Setter
+     *
      * @param intentosMax
      */
     public void setIntentosMax(int intentosMax) {
@@ -114,6 +122,7 @@ public class Singleton {
 
     /**
      * Getter
+     *
      * @return puntuacion
      */
     public int getPuntuacion() {
@@ -122,6 +131,7 @@ public class Singleton {
 
     /**
      * Setter
+     *
      * @param puntuacion
      */
     public void setPuntuacion(int puntuacion) {
@@ -130,6 +140,7 @@ public class Singleton {
 
     /**
      * Getter
+     *
      * @return alias
      */
     public String getAlias() {
@@ -138,6 +149,7 @@ public class Singleton {
 
     /**
      * Setter
+     *
      * @param alias
      */
     public void setAlias(String alias) {
@@ -146,6 +158,7 @@ public class Singleton {
 
     /**
      * Getter
+     *
      * @return rondasPartida
      */
     public int getRondasPartida() {
@@ -154,6 +167,7 @@ public class Singleton {
 
     /**
      * Setter
+     *
      * @param rondasPartida
      */
     public void setRondasPartida(int rondasPartida) {
@@ -162,6 +176,7 @@ public class Singleton {
 
     /**
      * Getter
+     *
      * @return rondaActual
      */
     public int getRondaActual() {
@@ -170,6 +185,7 @@ public class Singleton {
 
     /**
      * Setter
+     *
      * @param rondaActual
      */
     public void setRondaActual(int rondaActual) {
@@ -178,6 +194,7 @@ public class Singleton {
 
     /**
      * Getter
+     *
      * @return fallos
      */
     public int getFallos() {
@@ -186,6 +203,7 @@ public class Singleton {
 
     /**
      * Setter
+     *
      * @param fallos
      */
     public void setFallos(int fallos) {
@@ -199,6 +217,7 @@ public class Singleton {
 
     /**
      * Metodo getInstance()
+     *
      * @return instance
      */
     public static Singleton getInstance() {
@@ -211,49 +230,67 @@ public class Singleton {
     /**
      * Genera un numero aleatorio entre 1 y 10
      */
-    public void generarNumAleatorio() {
 
+    public void generarNumAleatorio() {
+        Random random = new Random();
+        this.numeroAleatorio = random.nextInt(10) + 1;
     }
 
     /**
      * Pide un número al usuario
      */
     public void pedirNumero() {
-
+        System.out.print("Ingresa el número que crees: ");
+        this.alias = sc.nextLine();
     }
 
     /**
      * Comprueba si el numero pedido por el usuario es el mismo que el generado aleatoriamente
      */
-    public void comprobarNumero() {
-
+public void comprobarNumero() {
+    if (this.numeroPropuesto == this.numeroAleatorio) {
+        System.out.println("¡Felicidades! Has adivinado el número.");
+    } else {
+        System.out.println("Lo siento, no has adivinado el número. El número era " + this.numeroAleatorio);
+        this.nMax--;
     }
+}
 
     /**
      * En caso de haber acertado el numero en menos de dos intentos, aumenta la puntuacion del usuario
      */
-    public void aumentarPuntuacion() {
-
+public void aumentarPuntuacion() {
+    if (this.numeroPropuesto == this.numeroAleatorio && this.nMax > 0) {
+        this.puntuacion++;
+        System.out.println("¡Bien hecho! Tu puntuación es ahora " + this.puntuacion);
     }
+}
 
     /**
      * Pide el alias al usuario
      */
     public void solicitarAlias() {
-
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Por favor, introduce tu nombre: ");
+        this.alias = scanner.nextLine();
     }
 
     /**
      * Calcula el numero de fallos cometido por el usuario en cada ronda
      */
     public void calcularNumFallos() {
-
+        if (this.numeroPropuesto != this.numeroAleatorio) {
+            this.fallos++;
+            System.out.println("Número de fallos: " + this.fallos);
+        }
     }
+
 
     /**
      * Cuenta el numero de rondas totales que lleva el usuario en cada partida
      */
     public void contarRondas() {
-
+        this.rondaActual++;
+        System.out.println("Ronda: " + this.rondaActual);
     }
 }
